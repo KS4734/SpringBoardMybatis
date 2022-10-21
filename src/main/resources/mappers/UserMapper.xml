@@ -10,6 +10,9 @@
 	<select id="detail" resultType="com.joongbu.mybatis_board.dto.UserDto" >
  		SELECT *,user_id userId from USER WHERE user_id=#{userId}
  	</select>
+ 	<select id="login" resultType="com.joongbu.mybatis_board.dto.UserDto" >
+ 		SELECT *,user_id userId from USER WHERE user_id=#{userId} AND pw=#{pw}
+ 	</select>
 	<update id="update" parameterType="com.joongbu.mybatis_board.dto.UserDto" >
  		UPDATE USER SET name=#{name},pw=#{pw},email=#{email},phone=#{phone},birth=#{birth},signup=#{signup} WHERE user_id=#{userId}
  	</update>

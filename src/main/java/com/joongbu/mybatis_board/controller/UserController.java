@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,7 +125,7 @@ public class UserController {
 	}
 	@GetMapping("/insert.do")
 	public void insert() {}
-	@PostMapping("insert.do")
+	@PostMapping("/insert.do")
 	public String insert(UserDto user) {
 		int insert=0;
 		try {
@@ -164,4 +165,33 @@ public class UserController {
 		}
 		return checkUser;
 	}
+	@GetMapping("/login.do")
+	public void login() {}
+	@PostMapping("/login.do")
+	public String login(
+			@RequestParam(required = true) String userId, 
+			@RequestParam(required = true) String pw,
+			HttpSession session
+			) {
+		UserDto loginUser = null;
+		try {
+			loginUser = userMapper.login(userId, pw);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(loginUser);
+		if(loginUser!=null) {
+			session.setAttribute("loginUser", loginUser);
+			return "redirect:/";
+		}else {
+			return "redirect:/user/login.do";
+		}
+	}
+	@GetMapping("/logout.do")
+	public String logout(HttpSession session) {
+		//session.invalidate();
+		session.removeAttribute("loginUser");
+		return "redirect:/";
+	}
+	
 }

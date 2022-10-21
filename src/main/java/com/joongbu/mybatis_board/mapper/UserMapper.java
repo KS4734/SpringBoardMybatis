@@ -12,7 +12,7 @@ public interface UserMapper {
 	// select id=list :return List
 	List<UserDto> list(@Param(value = "start")int startRow,int rows);
 	UserDto detail(String userId);
-	
+	UserDto login(String userId, String pw);
 	int update(UserDto user);
 	int insert(UserDto user);
 	int delete(String userId);
